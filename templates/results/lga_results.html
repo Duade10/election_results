@@ -1,0 +1,23 @@
+<h1>LGA Results</h1>
+<form method="post">
+    {% csrf_token %}
+    <select name="lga">
+        {% for lga in lgas %}
+            <option value="{{ lga.uniqueid }}" {% if selected_lga.uniqueid == lga.uniqueid %}selected{% endif %}>
+                {{ lga.lga_name }}
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Get Results">
+</form>
+
+{% if results %}
+    <h2>Results for {{ selected_lga.lga_name }}</h2>
+    <ul>
+    {% for result in results %}
+        <li>{{ result.party_abbreviation }}: {{ result.total_score }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <h2>No Results for {{selected_lga.lga_name}}</h2>
+{% endif %}

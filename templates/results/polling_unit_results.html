@@ -1,0 +1,10 @@
+<h1>Results for Polling Unit {{ polling_unit.polling_unit_name }}</h1>
+<p>Polling Unit ID: {{ polling_unit.polling_unit_id }}</p>
+<p>Description: {{ polling_unit.polling_unit_description }}</p>
+
+<h2>Results:</h2>
+<ul>
+{% for result in results %}
+    <li>{{ result.party_abbreviation }}: {{ result.party_score }}</li>
+{% endfor %}
+</ul>
