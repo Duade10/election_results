@@ -109,6 +109,10 @@ class PollingUnit(models.Model):
     def __str__(self):
         return self.polling_unit_name
 
+    @property
+    def lga_name(self):
+        return Lga.objects.get(uniqueid=self.lga_id).lga_name
+
     class Meta:
         db_table = 'polling_unit'
 

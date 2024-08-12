@@ -1,49 +1,81 @@
-<h1>Polling Unit Results - Delta State</h1>
+{% extends 'base.html' %}
+{% block title %}
+    Polling Unit Results
+{% endblock title %}
+{% block content %}
+<h1 class="m-4 text-center">POLLING UNIT RESULTS - Delta State</h1>
 
 <form method="post">
     {% csrf_token %}
     <label for="polling_unit_id">Select Polling Unit ID:</label>
-    <select name="polling_unit_id" id="polling_unit_id">
-        {% for id in polling_unit_ids %}
-            <option value="{{ id }}">{{ id }}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Get Results">
+    <div class="input-group mb-2">
+        <select class="form-select" name="polling_unit_id" id="polling_unit_id">
+            <option value="none" selected>Choose...</option>
+            {% for id in polling_unit_ids %}
+            <option value="{{ id }}">{{id}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-outline-secondary" type="submit">Get Results</button>
+    </div>
 </form>
 
 {% if error %}
-    <p style="color: red;">{{ error }}</p>
+<p style="color: red;">{{ error }}</p>
 {% endif %}
 
+<hr />
 {% if polling_units %}
-    {% if polling_units.count > 1 %}
-        <h2>{{ polling_units.count }} Polling units match ID</h2>
-        {% for unit in polling_units %}
-            <h3>Polling Unit: {{ unit.polling_unit_name }}</h3>
-            <p>ID: {{ unit.polling_unit_id }}</p>
-            <p>LGA: {{ unit.lga.lga_name }}</p>
-        {% endfor %}
-    {% else %}
-        <h2>Polling Unit: {{ polling_units.first.polling_unit_name }}</h2>
-        <p>ID: {{ polling_units.first.polling_unit_id }}</p>
-        <p>LGA: {{ polling_units.first.lga.lga_name }}</p>
-    {% endif %}
+{% if polling_units.count > 1 %}
+<h2>{{ polling_units.count }} Polling units match ID</h2>
+<div class="row">
+    {% for unit in polling_units %}
+    <div class="col m-2">
+        <div class="card" style="width: 18rem;">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Polling Unit: {{ unit.polling_unit_name }}</li>
+                <li class="list-group-item">ID: {{ unit.polling_unit_id }}</li>
+                <li class="list-group-item">LGA: {{ unit.lga_name }}</li>
+            </ul>
+        </div>
+    </div>
 
-    <h3>Results:</h3>
-    {% if results %}
-    <table border="1">
+    {% endfor %}
+</div>
+{% else %}
+<div class="card" style="width: 18rem;">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Polling Unit: {{ polling_units.first.polling_unit_name }}</li>
+        <li class="list-group-item">ID: {{ polling_units.first.polling_unit_id }}
+        <li class="list-group-item">LGA: {{ polling_units.first.lga_name }}</li>
+        </li>
+    </ul>
+</div>
+{% endif %}
+
+<hr />
+<h3>Results:</h3>
+{% if results %}
+<table class="table">
+    <thead>
         <tr>
-            <th>Party</th>
-            <th>Score</th>
+            <th scope="col">#</th>
+            <th scope="col">Party</th>
+            <th scope="col">Score</th>
         </tr>
+    </thead>
+    <tbody>
         {% for result in results %}
         <tr>
+            <th scope="row">{{forloop.counter}}</th>
             <td>{{ result.party_abbreviation }}</td>
             <td>{{ result.party_score }}</td>
         </tr>
         {% endfor %}
-    </table>
-    {% else %}
-    <p>No results found for this polling unit.</p>
-    {% endif %}
+
+    </tbody>
+</table>
+{% else %}
+<p>No results found for this polling unit.</p>
 {% endif %}
+{% endif %}
+{% endblock content %}

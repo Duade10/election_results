@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}
+Success
+{% endblock title %}
+{% block content %}
+<h1>Success!</h1>
+<p>The new polling unit results have been successfully added.</p>
+<a href="{% url 'results:new_polling_unit' %}">Add another polling unit result</a>
+{% endblock content %}

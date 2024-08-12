@@ -14,6 +14,10 @@ def polling_unit_results(request):
     if request.method == 'POST':
         polling_unit_id = request.POST.get('polling_unit_id')
 
+        if polling_unit_id == 'none':
+            context['error'] = "Please enter a valid polling unit ID."
+            return render(request, 'results/polling_unit_results.html', context)
+
         lgas = Lga.objects.filter(state_id=25)
         polling_units = PollingUnit.objects.filter(polling_unit_id=polling_unit_id, lga_id__in=lgas.values_list('uniqueid', flat=True))
 
