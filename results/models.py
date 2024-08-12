@@ -28,7 +28,7 @@ class AnnouncedLgaResults(models.Model):
 
 class AnnouncedPuResults(models.Model):
     result_id = models.AutoField(primary_key=True)
-    polling_unit_uniqueid = models.CharField(max_length=50)
+    polling_unit_uniqueid = models.IntegerField()
     party_abbreviation = models.CharField(max_length=4)
     party_score = models.IntegerField()
     entered_by_user = models.CharField(max_length=50)
@@ -75,6 +75,9 @@ class Lga(models.Model):
     date_entered = models.DateTimeField()
     user_ip_address = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.lga_name
+
     class Meta:
         db_table = 'lga'
 
@@ -102,6 +105,9 @@ class PollingUnit(models.Model):
     entered_by_user = models.CharField(max_length=50, null=True, blank=True)
     date_entered = models.DateTimeField(null=True, blank=True)
     user_ip_address = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self):
+        return self.polling_unit_name
 
     class Meta:
         db_table = 'polling_unit'
