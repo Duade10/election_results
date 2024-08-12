@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.db.models import Sum
 from .models import AnnouncedPuResults, Lga, Party, PollingUnit
 from datetime import datetime
 
 
 def polling_unit_results(request, polling_unit_id):
-    # polling_unit = get_object_or_404(PollingUnit, polling_unit_id=polling_unit_id)
+    polling_unit = get_list_or_404(PollingUnit, polling_unit_id=polling_unit_id)
+    print(polling_unit)
     results = AnnouncedPuResults.objects.filter(polling_unit_uniqueid=polling_unit_id)
     context = {
         # 'polling_unit': polling_unit,
