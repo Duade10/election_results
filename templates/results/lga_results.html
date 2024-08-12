@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>LGA Results</h1>
 <form method="post">
     {% csrf_token %}
@@ -21,3 +23,4 @@
 {% else %}
     <h2>No Results for {{selected_lga.lga_name}}</h2>
 {% endif %}
+{% endblock content %}
