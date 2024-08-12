@@ -11,6 +11,11 @@ class Agentname(models.Model):
 
     class Meta:
         db_table = 'agentname'
+        verbose_name = 'Agent Name'
+        verbose_name_plural = 'Agent Names'
+
+    def __str__(self):
+        return self.firstname
 
 
 class AnnouncedLgaResults(models.Model):
@@ -24,6 +29,11 @@ class AnnouncedLgaResults(models.Model):
 
     class Meta:
         db_table = 'announced_lga_results'
+        verbose_name = 'Announced LGA Result'
+        verbose_name_plural = 'Announced LGA Results'
+
+    def __str__(self):
+        return f'{self.lga_name} - {self.party_abbreviation} - {self.party_score}'
 
 
 class AnnouncedPuResults(models.Model):
@@ -37,6 +47,11 @@ class AnnouncedPuResults(models.Model):
 
     class Meta:
         db_table = 'announced_pu_results'
+        verbose_name = 'Announced Polling Unit Result'
+        verbose_name_plural = 'Announced Polling Unit Results'
+
+    def __str__(self):
+        return f'{self.polling_unit_uniqueid} - {self.party_abbreviation} - {self.party_score}'
 
 
 class AnnouncedStateResults(models.Model):
@@ -50,6 +65,11 @@ class AnnouncedStateResults(models.Model):
 
     class Meta:
         db_table = 'announced_state_results'
+        verbose_name = 'Announced State Result'
+        verbose_name_plural = 'Announced State Results'
+
+    def __str__(self):
+        return f'{self.state_name} - {self.party_abbreviation} - {self.party_score}'
 
 
 class AnnouncedWardResults(models.Model):
@@ -63,6 +83,11 @@ class AnnouncedWardResults(models.Model):
 
     class Meta:
         db_table = 'announced_ward_results'
+        verbose_name = 'Announced Ward Result'
+        verbose_name_plural = 'Announced Ward Results'
+
+    def __str__(self):
+        return f'{self.ward_name} - {self.party_abbreviation} - {self.party_score}'
 
 
 class Lga(models.Model):
@@ -75,11 +100,13 @@ class Lga(models.Model):
     date_entered = models.DateTimeField()
     user_ip_address = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.lga_name
-
     class Meta:
         db_table = 'lga'
+        verbose_name = 'Local Government Area'
+        verbose_name_plural = 'Local Government Areas'
+
+    def __str__(self):
+        return self.lga_name
 
 
 class Party(models.Model):
@@ -89,6 +116,11 @@ class Party(models.Model):
 
     class Meta:
         db_table = 'party'
+        verbose_name = 'Party'
+        verbose_name_plural = 'Parties'
+
+    def __str__(self):
+        return self.partyname
 
 
 class PollingUnit(models.Model):
@@ -106,15 +138,17 @@ class PollingUnit(models.Model):
     date_entered = models.DateTimeField(null=True, blank=True)
     user_ip_address = models.CharField(max_length=50, null=True, blank=True)
 
-    def __str__(self):
-        return self.polling_unit_name
-
     @property
     def lga_name(self):
         return Lga.objects.get(uniqueid=self.lga_id).lga_name
 
     class Meta:
         db_table = 'polling_unit'
+        verbose_name = 'Polling Unit'
+        verbose_name_plural = 'Polling Units'
+
+    def __str__(self):
+        return self.polling_unit_name
 
 
 class State(models.Model):
@@ -123,6 +157,11 @@ class State(models.Model):
 
     class Meta:
         db_table = 'states'
+        verbose_name = 'State'
+        verbose_name_plural = 'States'
+
+    def __str__(self):
+        return self.state_name
 
 
 class Ward(models.Model):
@@ -137,3 +176,8 @@ class Ward(models.Model):
 
     class Meta:
         db_table = 'ward'
+        verbose_name = 'Ward'
+        verbose_name_plural = 'Wards'
+
+    def __str__(self):
+        return self.ward_name

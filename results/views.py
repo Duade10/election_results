@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.db.models import Sum
-from .models import AnnouncedPuResults, Lga, Party, PollingUnit
 from datetime import datetime
 
-from django.shortcuts import render
-from .models import PollingUnit, AnnouncedPuResults, Lga
 from django.db.models import Sum
+from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+
+from .models import Party
+from .models import PollingUnit, AnnouncedPuResults, Lga
 
 
 def polling_unit_results(request):
@@ -19,7 +19,8 @@ def polling_unit_results(request):
             return render(request, 'results/polling_unit_results.html', context)
 
         lgas = Lga.objects.filter(state_id=25)
-        polling_units = PollingUnit.objects.filter(polling_unit_id=polling_unit_id, lga_id__in=lgas.values_list('uniqueid', flat=True))
+        polling_units = PollingUnit.objects.filter(polling_unit_id=polling_unit_id,
+                                                   lga_id__in=lgas.values_list('uniqueid', flat=True))
 
         if polling_units.exists():
             results = AnnouncedPuResults.objects.filter(
@@ -32,7 +33,8 @@ def polling_unit_results(request):
         else:
             context['error'] = f"No polling unit found with ID {polling_unit_id} in Delta State."
     lgas = Lga.objects.filter(state_id=25)
-    polling_unit_ids = PollingUnit.objects.filter(lga_id__in=lgas.values_list('uniqueid', flat=True)).values_list('polling_unit_id', flat=True).distinct()
+    polling_unit_ids = PollingUnit.objects.filter(lga_id__in=lgas.values_list('uniqueid', flat=True)).values_list(
+        'polling_unit_id', flat=True).distinct()
     context['polling_unit_ids'] = polling_unit_ids
 
     return render(request, 'results/polling_unit_results.html', context)
